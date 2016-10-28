@@ -87,13 +87,13 @@ namespace Laba4
                 GenEvent gnEvent = new GenEvent();
                 RecEvent inventoryWatch = new RecEvent(gnEvent);
  
-                Console.WriteLine("Введите название поезда:");
+                Console.WriteLine("Put the train's name:");
                 tName = Console.ReadLine();
-                Console.WriteLine("Введите станцию отправления:");
+                Console.WriteLine("Put the start station:");
                 fStation = Console.ReadLine();
-                Console.WriteLine("Введите станцию назначения:");
+                Console.WriteLine("Put the final station:");
                 lStation = Console.ReadLine();
-                Console.WriteLine("Введите время в пути:");
+                Console.WriteLine("Put the time of way:");
                 time = Convert.ToInt32(Console.ReadLine());
  
                 gnEvent.NewEvent(tName, fStation, lStation, time);
