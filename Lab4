@@ -1,0 +1,107 @@
+using System;
+namespace Laba4
+{
+    class TrainEventArgs : EventArgs
+    {
+        string trainName;
+        public string TrainName
+        {
+            get
+            {
+                return trainName;
+            }
+        }
+        string firstStation;
+        public string FirstStation
+        {
+            get
+            {
+                return firstStation;
+            }
+        }
+ 
+        string lastStation;
+        public string LastStation
+        {
+            get
+            {
+                return lastStation;
+            }
+        }
+ 
+        int wayTime;
+        public int WayTime
+        {
+            get
+            {
+                return wayTime;
+            }
+        }
+ 
+        public TrainEventArgs(string trainName, string firstStation, string lastStation, int wayTime)
+        {
+            this.trainName = trainName;
+            this.firstStation = firstStation;
+            this.lastStation = lastStation;
+            this.wayTime = wayTime;
+        }
+    }
+    class GenEvent  
+    {
+        public delegate void TrainEventHandler(object sender, TrainEventArgs e);
+ 
+        public event TrainEventHandler OnTrainHandler;
+ 
+        public void NewEvent(string trainName, string firstStation, string lastStation, int wayTime)
+        {
+            TrainEventArgs e = new TrainEventArgs(trainName, firstStation, lastStation, wayTime);
+ 
+            if (OnTrainHandler != null)
+                 OnTrainHandler(this, e);
+ 
+        }
+ 
+        class RecEvent
+        {
+            //Обработчик события  
+            void OnRecTrain(object source, TrainEventArgs e)
+            {
+                Console.WriteLine("\nНазвание поезда: {0} \nСтанция отправления: {1} \nСтанция назначения: {2}  \nВремя в пути, ч: {3}", e.TrainName, e.FirstStation, e.LastStation, e.WayTime);
+            }
+ 
+            //Подписка
+            public RecEvent(GenEvent gnEvent)
+            {
+                gnEvent.OnTrainHandler += new GenEvent.TrainEventHandler(OnRecTrain);
+            }
+        }
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                string tName;
+                string fStation;
+                string lStation;
+                int time;
+ 
+                GenEvent gnEvent = new GenEvent();
+                RecEvent inventoryWatch = new RecEvent(gnEvent);
+ 
+                Console.WriteLine("Введите название поезда:");
+                tName = Console.ReadLine();
+                Console.WriteLine("Введите станцию отправления:");
+                fStation = Console.ReadLine();
+                Console.WriteLine("Введите станцию назначения:");
+                lStation = Console.ReadLine();
+                Console.WriteLine("Введите время в пути:");
+                time = Convert.ToInt32(Console.ReadLine());
+ 
+                gnEvent.NewEvent(tName, fStation, lStation, time);
+ 
+                Console.Read();
+ 
+            }
+ 
+        }
+    }
+}
